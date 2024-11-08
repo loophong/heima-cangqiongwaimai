@@ -1,5 +1,6 @@
 package com.sky.controller.admin;
 
+import com.sky.dto.CategoryDTO;
 import com.sky.dto.CategoryPageQueryDTO;
 import com.sky.result.PageResult;
 import com.sky.result.Result;
@@ -64,6 +65,21 @@ public class CategoryController {
     public Result startOrStopCategory(@PathVariable Integer status, Long id) {
         log.info("启用或禁用分类,id：{}，status：{}", status, id);
         categoryService.startOrStopCategory(status, id);
+        return Result.success();
+    }
+
+    /** 
+     * @description: 新增分类
+     * @param: categoryDTO 
+     * @return: com.sky.result.Result 
+     * @author: hong
+     * @date: 2024/11/8 21:44
+     */ 
+    @PostMapping
+    @ApiOperation("新增分类")
+    public Result save(@RequestBody CategoryDTO categoryDTO){
+        log.info("新增分类参数：{}", categoryDTO);
+        categoryService.save(categoryDTO);
         return Result.success();
     }
 }
