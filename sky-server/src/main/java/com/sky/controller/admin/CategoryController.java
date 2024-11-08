@@ -82,4 +82,20 @@ public class CategoryController {
         categoryService.save(categoryDTO);
         return Result.success();
     }
+
+    /** 
+     * @description: 修改分类
+     * @param: categoryDTO 
+     * @return: com.sky.result.Result 
+     * @author: hong
+     * @date: 2024/11/8 21:52
+     */ 
+    @PutMapping
+    @ApiOperation("修改分类")
+    public Result update(@RequestBody CategoryDTO categoryDTO){
+        categoryDTO.setType(null);
+        categoryService.update(categoryDTO);
+        return Result.success();
+    }
+
 }

@@ -12,4 +12,6 @@ public interface CategoryService {
     void startOrStopCategory(Integer status, Long id);
 
     void save(CategoryDTO categoryDTO);
+
+    void update(CategoryDTO categoryDTO);
 }
