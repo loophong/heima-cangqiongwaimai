@@ -7,4 +7,6 @@ public interface CategoryService {
     PageResult queryPage(CategoryPageQueryDTO categoryPageQueryDTO);
 
     void remove(Long id);
+
+    void startOrStopCategory(Integer status, Long id);
 }

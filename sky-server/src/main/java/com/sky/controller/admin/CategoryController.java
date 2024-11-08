@@ -37,11 +37,33 @@ public class CategoryController {
         return Result.success(result);
     }
 
+    /**
+     * @description: 根据id删除分类
+     * @param: id
+     * @return: com.sky.result.Result
+     * @author: hong
+     * @date: 2024/11/8 21:23
+     */
     @DeleteMapping
     @ApiOperation("根据id删除分类")
     public Result remove(Long id) {
         log.info("删除id：{}", id);
         categoryService.remove(id);
+        return Result.success();
+    }
+
+    /**
+     * @description: 启用或禁用分类
+     * @param: status, id
+     * @return: com.sky.result.Result
+     * @author: hong
+     * @date: 2024/11/8 21:32
+     */
+    @PostMapping("/status/{status}")
+    @ApiOperation("启用或禁用分类")
+    public Result startOrStopCategory(@PathVariable Integer status, Long id) {
+        log.info("启用或禁用分类,id：{}，status：{}", status, id);
+        categoryService.startOrStopCategory(status, id);
         return Result.success();
     }
 }

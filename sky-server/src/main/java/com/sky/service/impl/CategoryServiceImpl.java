@@ -2,6 +2,7 @@ package com.sky.service.impl;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.sky.context.BaseContext;
 import com.sky.dto.CategoryPageQueryDTO;
 import com.sky.entity.Category;
 import com.sky.mapper.CategoryMapper;
@@ -10,6 +11,8 @@ import com.sky.service.CategoryService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
 
 @Slf4j
 @Service
@@ -27,5 +30,15 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public void remove(Long id) {
         categoryMapper.deleteById(id);
+    }
+
+    @Override
+    public void startOrStopCategory(Integer status, Long id) {
+        Category category = new Category();
+        category.setId(id);
+        category.setStatus(status);
+        category.setUpdateTime(LocalDateTime.now());
+        category.setUpdateUser(BaseContext.getCurrentId());
+        categoryMapper.update(category);
     }
 }
