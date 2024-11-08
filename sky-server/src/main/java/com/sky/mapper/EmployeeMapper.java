@@ -15,4 +15,11 @@ public interface EmployeeMapper {
     @Select("select * from employee where username = #{username}")
     Employee getByUsername(String username);
 
+    /**
+     * @description: 新增员工
+     * @author: hong
+     * @date: 2024/11/8 15:47
+     * @version: 1.0
+     */
+    void insert(Employee employee);
 }
