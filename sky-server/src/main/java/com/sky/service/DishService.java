@@ -8,4 +8,6 @@ public interface DishService {
     void save(DishDTO dishDTO);
 
     PageResult queryPage(DishPageQueryDTO dishDTO);
+
+    void startOrStop(Integer status, Long id);
 }

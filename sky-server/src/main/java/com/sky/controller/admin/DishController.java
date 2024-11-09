@@ -33,19 +33,34 @@ public class DishController {
         return Result.success();
     }
 
-    /** 
+    /**
      * @description: 菜品分页查询
-     * @param: dishDTO 
-     * @return: com.sky.result.Result<com.sky.result.PageResult> 
+     * @param: dishDTO
+     * @return: com.sky.result.Result<com.sky.result.PageResult>
      * @author: hong
      * @date: 2024/11/9 19:17
-     */ 
+     */
     @GetMapping("/page")
     @ApiOperation("菜品分页查询")
     public Result<PageResult> save(DishPageQueryDTO dishDTO) {
         log.info("菜品分页查询：{}", dishDTO);
         PageResult page = dishService.queryPage(dishDTO);
         return Result.success(page);
+    }
+
+    /**
+     * @description: 菜品起售、停售
+     * @param: status,id
+     * @return: com.sky.result.Result
+     * @author: hong
+     * @date: 2024/11/9 19:25
+     */
+    @PostMapping("/status/{status}")
+    @ApiOperation("菜品起售、停售")
+    public Result startOrStop(@PathVariable Integer status, Long id) {
+        log.info("菜品起售、停售,status：{}，id：{}", status, id);
+        dishService.startOrStop(status,id);
+        return Result.success();
     }
 
 
