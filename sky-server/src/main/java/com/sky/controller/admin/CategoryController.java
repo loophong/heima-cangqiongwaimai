@@ -2,6 +2,7 @@ package com.sky.controller.admin;
 
 import com.sky.dto.CategoryDTO;
 import com.sky.dto.CategoryPageQueryDTO;
+import com.sky.entity.Category;
 import com.sky.result.PageResult;
 import com.sky.result.Result;
 import com.sky.service.CategoryService;
@@ -10,6 +11,8 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * @description: 分类管理
@@ -68,34 +71,49 @@ public class CategoryController {
         return Result.success();
     }
 
-    /** 
+    /**
      * @description: 新增分类
-     * @param: categoryDTO 
-     * @return: com.sky.result.Result 
+     * @param: categoryDTO
+     * @return: com.sky.result.Result
      * @author: hong
      * @date: 2024/11/8 21:44
-     */ 
+     */
     @PostMapping
     @ApiOperation("新增分类")
-    public Result save(@RequestBody CategoryDTO categoryDTO){
+    public Result save(@RequestBody CategoryDTO categoryDTO) {
         log.info("新增分类参数：{}", categoryDTO);
         categoryService.save(categoryDTO);
         return Result.success();
     }
 
-    /** 
+    /**
      * @description: 修改分类
-     * @param: categoryDTO 
-     * @return: com.sky.result.Result 
+     * @param: categoryDTO
+     * @return: com.sky.result.Result
      * @author: hong
      * @date: 2024/11/8 21:52
-     */ 
+     */
     @PutMapping
     @ApiOperation("修改分类")
-    public Result update(@RequestBody CategoryDTO categoryDTO){
+    public Result update(@RequestBody CategoryDTO categoryDTO) {
         categoryDTO.setType(null);
         categoryService.update(categoryDTO);
         return Result.success();
+    }
+
+    /** 
+     * @description: 通过type查询分类
+     * @param: type 
+     * @return: com.sky.result.Result<java.util.List<com.sky.entity.Category>> 
+     * @author: hong
+     * @date: 2024/11/9 18:20
+     */ 
+    @GetMapping("/list")
+    @ApiOperation("通过type查询分类")
+    public Result<List<Category>> update(Integer type) {
+        log.info("查询分类列表type:{}",type);
+        List<Category> categoryList = categoryService.getTypeList(type);
+        return Result.success(categoryList);
     }
 
 }
