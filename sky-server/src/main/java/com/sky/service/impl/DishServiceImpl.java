@@ -57,9 +57,9 @@ public class DishServiceImpl implements DishService {
     }
 
     public PageResult queryPage(DishPageQueryDTO dishDTO) {
-        PageHelper.startPage(dishDTO.getPage(),dishDTO.getPageSize());
+        PageHelper.startPage(dishDTO.getPage(), dishDTO.getPageSize());
         Page<DishVO> page = dishMapper.queryPage(dishDTO);
-        return new PageResult(page.getTotal(),page.getResult());
+        return new PageResult(page.getTotal(), page.getResult());
     }
 
     public void startOrStop(Integer status, Long id) {
@@ -78,7 +78,7 @@ public class DishServiceImpl implements DishService {
     @Transactional
     public void updateDishAndFlavor(DishDTO dishDTO) {
         Dish dish = new Dish();
-        BeanUtils.copyProperties(dishDTO,dish);
+        BeanUtils.copyProperties(dishDTO, dish);
         dishMapper.update(dish);
 
         // 处理口味信息，先删除后新增
@@ -89,6 +89,14 @@ public class DishServiceImpl implements DishService {
                 e.setDishId(dish.getId());
             });
             flavorMapper.batchInsert(flavors);
+        }
+    }
+
+    @Override
+    public void delete(List<Long> ids) {
+        if (ids != null && ids.size() > 0){
+            dishMapper.delete(ids);
+            flavorMapper.deleteByDishIds(ids);
         }
     }
 }
