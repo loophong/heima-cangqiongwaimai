@@ -106,7 +106,7 @@ public class CategoryController {
      * @param: type 
      * @return: com.sky.result.Result<java.util.List<com.sky.entity.Category>> 
      * @author: hong
-     * @date: 2024/11/9 18:20
+     * @date: 2024/11/9 18:23
      */ 
     @GetMapping("/list")
     @ApiOperation("通过type查询分类")
