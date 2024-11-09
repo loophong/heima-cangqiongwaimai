@@ -69,4 +69,11 @@ public class DishServiceImpl implements DishService {
         dish.setId(id);
         dishMapper.update(dish);
     }
+
+    @Override
+    public DishVO getById(Long id) {
+        DishVO dishVO = dishMapper.selectById(id);
+        dishVO.setFlavors(flavorMapper.selectByDishId(id));
+        return dishVO;
+    }
 }

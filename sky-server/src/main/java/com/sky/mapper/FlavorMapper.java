@@ -8,4 +8,6 @@ import java.util.List;
 @Mapper
 public interface FlavorMapper {
     void batchInsert(List<DishFlavor> flavors);
+
+    List<DishFlavor> selectByDishId(Long dishId);
 }

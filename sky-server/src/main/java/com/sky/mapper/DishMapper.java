@@ -13,4 +13,6 @@ public interface DishMapper {
     Page<DishVO> queryPage(DishPageQueryDTO dishDTO);
 
     void update(Dish dish);
+
+    DishVO selectById(Long id);
 }

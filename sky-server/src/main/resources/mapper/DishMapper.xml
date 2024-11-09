@@ -26,6 +26,7 @@
         )
     </select>
 
+
     <update id="update" parameterType="dish">
         update dish
         <set>
@@ -40,5 +41,11 @@
         </set>
         where id = #{id}
     </update>
+
+    <select id="selectById" resultType="com.sky.vo.DishVO">
+        select *
+        from dish
+        where id = #{id}
+    </select>
 
 </mapper>
