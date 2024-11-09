@@ -16,6 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -28,7 +29,7 @@ public class DishServiceImpl implements DishService {
     @Autowired
     private FlavorMapper flavorMapper;
 
-    @Override
+    @Transactional
     public void save(DishDTO dishDTO) {
         Dish dish = new Dish();
         BeanUtils.copyProperties(dishDTO, dish);
@@ -55,14 +56,12 @@ public class DishServiceImpl implements DishService {
 
     }
 
-    @Override
     public PageResult queryPage(DishPageQueryDTO dishDTO) {
         PageHelper.startPage(dishDTO.getPage(),dishDTO.getPageSize());
         Page<DishVO> page = dishMapper.queryPage(dishDTO);
         return new PageResult(page.getTotal(),page.getResult());
     }
 
-    @Override
     public void startOrStop(Integer status, Long id) {
         Dish dish = new Dish();
         dish.setStatus(status);
@@ -70,10 +69,26 @@ public class DishServiceImpl implements DishService {
         dishMapper.update(dish);
     }
 
-    @Override
     public DishVO getById(Long id) {
         DishVO dishVO = dishMapper.selectById(id);
         dishVO.setFlavors(flavorMapper.selectByDishId(id));
         return dishVO;
+    }
+
+    @Transactional
+    public void updateDishAndFlavor(DishDTO dishDTO) {
+        Dish dish = new Dish();
+        BeanUtils.copyProperties(dishDTO,dish);
+        dishMapper.update(dish);
+
+        // 处理口味信息，先删除后新增
+        flavorMapper.deleteByDishId(dish.getId());
+        List<DishFlavor> flavors = dishDTO.getFlavors();
+        if (flavors != null && flavors.size() > 0) {
+            flavors.forEach(e -> {
+                e.setDishId(dish.getId());
+            });
+            flavorMapper.batchInsert(flavors);
+        }
     }
 }
